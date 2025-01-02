@@ -1,20 +1,20 @@
 # Create 3 VPCs
-# VPC-A-Ireland-Prod 10.80.0.0/16
-# VPC-B-Ireland-Dev 10.81.0.0/16
-# VPC-C-Ireland-Test 10.82.0.0/16
+# VPC-A-Virginia-Prod 10.80.0.0/16
+# VPC-B-Virginia-Dev 10.81.0.0/16
+# VPC-C-Virginia-Test 10.82.0.0/16
 
 variable "vpcs" {
     type = map(map(string))
     default = {
-        VPC-A-Ireland-Prod = {
+        VPC-A-Virginia-Prod = {
             cidr = "10.80.0.0/16"
             service = "Production"
         }
-        VPC-B-Ireland-Dev = {
+        VPC-B-Virginia-Dev = {
             cidr = "10.81.0.0/16"
             service = "Development"
         }
-        VPC-C-Ireland-Test = {
+        VPC-C-Virginia-Test = {
             cidr = "10.82.0.0/16"
             service = "Testing"
         }
@@ -25,28 +25,28 @@ variable "vpcs" {
 variable "subnets" {
     type = map(map(string))
     default = {
-        VPC-A-Ireland-Prod-pub = {
+        VPC-A-Virginia-Prod-pub = {
             cidr = "10.80.1.0/24"
-            vpc = "VPC-A-Ireland-Prod"
-            az = "eu-west-1a"
+            vpc = "VPC-A-Virginia-Prod"
+            az = "us-east-1a"
             service = "production"
         }
-        VPC-A-Ireland-Prod-priv = {
+        VPC-A-Virginia-Prod-priv = {
             cidr = "10.80.11.0/24"
-            vpc = "VPC-A-Ireland-Prod"
-            az = "eu-west-1a"
+            vpc = "VPC-A-Virginia-Prod"
+            az = "us-east-1a"
             service = "prod"
         }
-        VPC-B-Ireland-Dev-priv = {
+        VPC-B-Virginia-Dev-priv = {
             cidr = "10.81.12.0/24"
-            vpc = "VPC-B-Ireland-Dev"
-            az = "eu-west-1b"
+            vpc = "VPC-B-Virginia-Dev"
+            az = "us-east-1b"
             service = "development"
         }
-        VPC-C-Ireland-Test-priv = {
+        VPC-C-Virginia-Test-priv = {
             cidr = "10.82.13.0/24"
-            vpc = "VPC-C-Ireland-Test"
-            az = "eu-west-1c"
+            vpc = "VPC-C-Virginia-Test"
+            az = "us-east-1c"
             service = "testing"
         }
     }
@@ -54,5 +54,5 @@ variable "subnets" {
 
 variable "prod-igw" {
     type = string
-    default = "VPC-A-Ireland-Prod"
+    default = "VPC-A-Virginia-Prod"
 }
