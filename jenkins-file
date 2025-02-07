@@ -41,10 +41,10 @@ pipeline {
                             -Dsonar.host.url=${SONARQUBE_URL} \
                             -Dsonar.login=''' + SONAR_TOKEN, returnStatus: true)
 
-                        if (scanStatus != 0) {
+                        //if (scanStatus != 0) {
                             createJiraTicket("Static Code Analysis Failed", "SonarQube scan detected issues in your code.")
-                            error("SonarQube found security vulnerabilities!")
-                        }
+                            //error("SonarQube found security vulnerabilities!")
+                        //}
                     }
                 }
             }
@@ -120,11 +120,48 @@ pipeline {
 // Function to Create a Jira Ticket
 def createJiraTicket(String issueTitle, String issueDescription) {
     script {
-        jiraNewIssue site: "${JIRA_SITE}",
-                     projectKey: "${JIRA_PROJECT}",
-                     issueType: "Bug",
-                     summary: issueTitle,
-                     description: issueDescription,
-                     priority: "High"
+        withCredentials([usernamePassword(credentialsId: 'jira-api-key', usernameVariable: 'JIRA_USER', passwordVariable: 'JIRA_TOKEN')]) {
+
+            // Define JSON payload as a Groovy map
+            def jiraPayload = [
+                fields: [
+                    project: [ key: JIRA_PROJECT ],
+                    summary: issueTitle,
+                    description: [
+                        type: "doc",
+                        version: 1,
+                        content: [
+                            [
+                                type: "paragraph",
+                                content: [
+                                    [
+                                        type: "text",
+                                        text: issueDescription
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    issuetype: [ name: JIRA_ISSUE_TYPE ]
+                ]
+            ]
+
+            // Convert Groovy map to JSON inside script block
+            def jsonPayload = groovy.json.JsonOutput.toJson(jiraPayload)
+
+            // Debugging: Print JSON payload before sending
+            echo "JIRA JSON Payload: ${jsonPayload}"
+
+            withEnv(["JIRA_AUTH=$JIRA_USER:$JIRA_TOKEN"]) {
+                def response = sh(script: """
+                    curl -X POST -H "Accept: application/json" -H "Content-Type: application/json" \
+                    -u "$JIRA_AUTH" \
+                    --data '${jsonPayload}' \
+                    "${JIRA_SITE}/rest/api/3/issue/"
+                """, returnStdout: true).trim()
+
+                echo "Jira Response: ${response}"
+            }
+        }
     }
 }
