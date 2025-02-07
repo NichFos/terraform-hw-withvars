@@ -122,6 +122,7 @@ pipeline {
 def createJiraTicket(String issueTitle, String issueDescription) {
     script {
         withCredentials([string(credentialsId: 'JIRA_API_TOKEN')]) {
+            // Make sure JIRA_SITE is accessible here
             jiraNewIssue site: JIRA_SITE,
                          projectKey: JIRA_PROJECT,
                          issueType: "Bug",
