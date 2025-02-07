@@ -6,6 +6,7 @@ pipeline {
         TRUFFLEHOG_PATH = "/usr/local/bin/trufflehog3"
         JIRA_SITE = "https://nicholasdfoster645.atlassian.net/"
         JIRA_PROJECT = "SECURITY" // Your Jira project key
+        JIRA_ISSUE_TYPE = "Bug"
     }
 
     stages {
