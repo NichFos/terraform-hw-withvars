@@ -117,14 +117,15 @@ pipeline {
     }
 }
 
-// Function to Create a Jira Ticket
+// Jira function using withCredentials inside
 def createJiraTicket(String issueTitle, String issueDescription) {
     script {
-        jiraNewIssue site: "${JIRA_SITE}",
-                     projectKey: "${JIRA_PROJECT}",
-                     issueType: "Bug",
-                     summary: issueTitle,
-                     description: issueDescription,
-                     priority: "High"
+        withCredentials([string(credentialsId: '<JIRA_API_TOKEN>')]) {
+            jiraNewIssue site: JIRA_SITE,
+                         projectKey: JIRA_PROJECT,
+                         issueType: "Bug",
+                         summary: issueTitle,
+                         description: issueDescription,
+                         priority: "High"
     }
 }
