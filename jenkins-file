@@ -4,7 +4,7 @@ pipeline {
         AWS_REGION = 'us-east-1'
         SONARQUBE_URL = "https://sonarcloud.io"
         TRUFFLEHOG_PATH = "/usr/local/bin/trufflehog3"
-        JIRA_SITE = "https://nicholasdfoster645-1738886915236.atlassian.net/"
+        JIRA_SITE = "https://nicholasdfoster645.atlassian.net/"
         JIRA_PROJECT = "SECURITY" // Your Jira project key
     }
 
