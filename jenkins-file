@@ -6,7 +6,7 @@ pipeline {
         TRUFFLEHOG_PATH = "/usr/local/bin/trufflehog3"
         JIRA_SITE = "https://nicholasdfoster645-1738886915236.atlassian.net/"
         JIRA_PROJECT = "SCRUM2" // Your Jira project key
-        JIRA_TOKEN = credentials('<JIRA_API_TOKEN>') // Use Jenkins credentials
+        JIRA_TOKEN = credentials('JIRA_API_TOKEN') // Use Jenkins credentials
     }
 
     stages {
@@ -121,7 +121,7 @@ pipeline {
 // Jira function using withCredentials inside
 def createJiraTicket(String issueTitle, String issueDescription) {
     script {
-        withCredentials([string(credentialsId: '<JIRA_API_TOKEN>')]) {
+        withCredentials([string(credentialsId: 'JIRA_API_TOKEN')]) {
             jiraNewIssue site: JIRA_SITE,
                          projectKey: JIRA_PROJECT,
                          issueType: "Bug",
