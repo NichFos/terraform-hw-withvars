@@ -120,7 +120,7 @@ pipeline {
 // Jira function using withCredentials inside
 def createJiraTicket(String issueTitle, String issueDescription) {
     script {
-        withCredentials([string(credentialsId: '<JIRA_API_TOKEN>')]) {
+        withCredentials([string(credentialsId: 'jira-api-key')]) {
             jiraNewIssue site: JIRA_SITE,
                          projectKey: JIRA_PROJECT,
                          issueType: "Bug",
